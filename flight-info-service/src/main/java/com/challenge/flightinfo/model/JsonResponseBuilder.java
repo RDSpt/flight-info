@@ -2,6 +2,7 @@ package com.challenge.flightinfo.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class JsonResponseBuilder<T> {
@@ -26,6 +27,16 @@ public class JsonResponseBuilder<T> {
     }
 
     this.data.add(data);
+
+    return this;
+  }
+
+  public JsonResponseBuilder<T> data(Collection<T> data) {
+    if (this.data == null) {
+      this.data = new ArrayList<>();
+    }
+
+    this.data.addAll(data);
 
     return this;
   }
