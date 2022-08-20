@@ -1,0 +1,20 @@
+<script setup>
+
+
+</script>
+
+<template>
+  <canvas class="background"></canvas>
+</template>
+
+<style scoped>
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #4eadf5;
+}
+</style>
