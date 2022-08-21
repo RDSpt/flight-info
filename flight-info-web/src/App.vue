@@ -1,12 +1,14 @@
 <script setup>
-import FrontElement from "./components/FrontElement.vue";
-import AnimatedBackground from "./components/AnimatedBackground.vue";
+import FrontElement from './components/FrontElement.vue';
+import AnimatedBackground from './components/AnimatedBackground.vue';
+import LogoComp from './components/LogoComp.vue';
 </script>
 
 <template>
   <div class="main">
-    <AnimatedBackground />
-    <FrontElement />
+    <logo-comp />
+    <animated-background />
+    <front-element />
   </div>
 </template>
 

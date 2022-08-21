@@ -5,27 +5,26 @@ import AnimatedPlane from './AnimatedPlane.vue';
 
 <template>
   <div class="grid-animation">
-    <animated-sky />
-    <animated-plane />
+    <div class="el1">
+      <animated-sky :number-of-clouds="15" :number-of-rows="3" />
+    </div>
+    <div class="el2">
+      <animated-plane :number-of-planes="5" :number-of-rows="2" />
+    </div>
   </div>
 </template>
 
 <style>
 .grid-animation {
+  max-height: 50vw;
   display: flex;
 }
 
-animated-sky {
+.el1 .el2 {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 1;
-}
-
-animated-plane {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 2;
+  top: 0;
+  left: 0;
 }
 </style>

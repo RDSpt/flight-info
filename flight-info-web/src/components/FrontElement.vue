@@ -1,35 +1,47 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
-const inputText = ref("");
+const inputText = ref('');
+const selectedOption = ref('');
+console.log(
+  'inputText: ',
+  inputText.value,
+  'selectedOption: ',
+  selectedOption.value
+);
 
-const options = [
-  { id: 1, value: "Airline" },
-  { id: 2, value: "Airport" },
-  { id: 3, value: "Flight" },
-];
+const options = ['Airline', 'Airport', 'Flight'];
 </script>
 
 <template>
-  <div class="center">
-    <select name="type" id="type">
-      <option v-for="option in options" :key="option.id" value="{option.value}">
-        {{ option.value }}
-      </option>
-    </select>
-    <input v-model="inputText" placeholder="What are you searching for?" />
-  </div>
+  <v-container class="center" color="blue lighten-4">
+    <v-form ref="form">
+      <v-row justify="center">
+        <v-col cols="6" md="2">
+          <v-select
+            label="Select an option"
+            :items="options"
+            prepend-inner-icon="{{option}}"
+            v-model="selectedOption"
+            solo
+          ></v-select
+        ></v-col>
+        <v-col cols="20" md="4">
+          <v-text-field
+            v-model="inputText"
+            label="What are you searching for?"
+            solo
+          ></v-text-field
+        ></v-col>
+      </v-row>
+    </v-form>
+  </v-container>
 </template>
 
 <style scoped>
 .center {
-  margin: 0% 5%;
-  z-index: 2;
-}
-select {
-  width: 50%;
-}
-input {
-  width: 50%;
+  position: absolute;
+  top: 50%;
+  z-index: 999;
 }
 </style>
