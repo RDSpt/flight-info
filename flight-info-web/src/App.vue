@@ -1,22 +1,22 @@
 <script setup>
-import Base from './components/Base.vue';
-import AnimatedBackground from './components/AnimatedBackground.vue';
+import FrontElement from "./components/FrontElement.vue";
+import AnimatedBackground from "./components/AnimatedBackground.vue";
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-  </header>
-  <AnimatedBackground />
-  <Base />
+  <div class="main">
+    <AnimatedBackground />
+    <FrontElement />
+  </div>
 </template>
 
 <style scoped>
-
+.main {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
 </style>

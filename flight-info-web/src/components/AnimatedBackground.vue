@@ -1,20 +1,31 @@
 <script setup>
-
-
+import AnimatedSky from './AnimatedSky.vue';
+import AnimatedPlane from './AnimatedPlane.vue';
 </script>
 
 <template>
-  <canvas class="background"></canvas>
+  <div class="grid-animation">
+    <animated-sky />
+    <animated-plane />
+  </div>
 </template>
 
-<style scoped>
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-color: #4eadf5;
+<style>
+.grid-animation {
+  display: flex;
+}
+
+animated-sky {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+}
+
+animated-plane {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 2;
 }
 </style>

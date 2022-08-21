@@ -49,7 +49,7 @@ public abstract class ApiIntegration {
       requestEntity = new HttpEntity<>("body", httpHeaders);
     }
 
-    LOGGER.info("Attempting to connect to {}", finalUrl);
+    LOGGER.info("Attempting to connect to {} with parameters {}", finalUrl, parameters);
 
     ResponseEntity<String> response = restTemplate.exchange(finalUrl, HttpMethod.GET, requestEntity, String.class, parameters);
 
