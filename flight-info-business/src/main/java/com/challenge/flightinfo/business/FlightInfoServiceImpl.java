@@ -1,5 +1,6 @@
 package com.challenge.flightinfo.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,10 +34,18 @@ public class FlightInfoServiceImpl implements FlightInfoService {
   @Override
   public List<AirlineInfo> getAirlineInfo(String value, String searchType) {
     AirlineSearchType airlineSearchType = AirlineSearchType.lookup(searchType);
-    return switch (airlineSearchType) {
-      case IATA -> airlineApi.getAirlineByIata(value);
-      case ICAO -> airlineApi.getAirlineByIcao(value);
-      case NAME -> airlineApi.getAirlineByName(value);
-    };
+    List<AirlineInfo> response = new ArrayList<>();
+    switch (airlineSearchType) {
+      case IATA:
+        response = airlineApi.getAirlineByIata(value);
+      case ICAO:
+        response = airlineApi.getAirlineByIcao(value);
+      case NAME:
+        response = airlineApi.getAirlineByName(value);
+
+    }
+
+
+    return response;
   }
 }
