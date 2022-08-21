@@ -1,9 +1,9 @@
 package com.challenge.flightinfo.business.model;
 
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.SerializedName;
 
 public class AirlineInfo {
 
@@ -11,7 +11,8 @@ public class AirlineInfo {
 
   private String icao;
 
-  private String logo_url;
+  @SerializedName("logo_url")
+  private String logoUrl;
   private String name;
   private Map<String, Long> fleet;
 
@@ -31,12 +32,13 @@ public class AirlineInfo {
     this.icao = icao;
   }
 
-  public String getLogo_url() {
-    return logo_url;
+
+  public String getLogoUrl() {
+    return logoUrl;
   }
 
-  public void setLogo_url(String logo_url) {
-    this.logo_url = logo_url;
+  public void setLogoUrl(String logoUrl) {
+    this.logoUrl = logoUrl;
   }
 
   public String getName() {
@@ -60,7 +62,7 @@ public class AirlineInfo {
     return MoreObjects.toStringHelper(this)
       .add("iata", iata)
       .add("icao", icao)
-      .add("logo_url", logo_url)
+      .add("logo_url", logoUrl)
       .add("name", name)
       .add("fleet", fleet)
       .toString();

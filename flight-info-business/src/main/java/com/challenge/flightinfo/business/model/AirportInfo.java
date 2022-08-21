@@ -3,6 +3,7 @@ package com.challenge.flightinfo.business.model;
 import java.math.BigDecimal;
 
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.SerializedName;
 
 public class AirportInfo {
 
@@ -12,14 +13,20 @@ public class AirportInfo {
   private String icao;
   private String name;
   private String location;
-  private String street_number;
+
+  @SerializedName("street_number")
+  private String streetNumber;
   private String street;
   private String city;
   private String county;
   private String state;
-  private String country_iso;
+
+  @SerializedName("country_iso")
+  private String countryIso;
   private String country;
-  private String postal_code;
+
+  @SerializedName("postal_code")
+  private String postalCode;
   private String phone;
   private BigDecimal latitude;
   private BigDecimal longitude;
@@ -66,12 +73,12 @@ public class AirportInfo {
     this.location = location;
   }
 
-  public String getStreet_number() {
-    return street_number;
+  public String getStreetNumber() {
+    return streetNumber;
   }
 
-  public void setStreet_number(String street_number) {
-    this.street_number = street_number;
+  public void setStreetNumber(String streetNumber) {
+    this.streetNumber = streetNumber;
   }
 
   public String getStreet() {
@@ -106,12 +113,12 @@ public class AirportInfo {
     this.state = state;
   }
 
-  public String getCountry_iso() {
-    return country_iso;
+  public String getCountryIso() {
+    return countryIso;
   }
 
-  public void setCountry_iso(String country_iso) {
-    this.country_iso = country_iso;
+  public void setCountryIso(String countryIso) {
+    this.countryIso = countryIso;
   }
 
   public String getCountry() {
@@ -122,12 +129,12 @@ public class AirportInfo {
     this.country = country;
   }
 
-  public String getPostal_code() {
-    return postal_code;
+  public String getPostalCode() {
+    return postalCode;
   }
 
-  public void setPostal_code(String postal_code) {
-    this.postal_code = postal_code;
+  public void setPostalCode(String postalCode) {
+    this.postalCode = postalCode;
   }
 
   public String getPhone() {
@@ -178,14 +185,14 @@ public class AirportInfo {
       .add("icao", icao)
       .add("name", name)
       .add("location", location)
-      .add("street_number", street_number)
+      .add("street_number", streetNumber)
       .add("street", street)
       .add("city", city)
       .add("county", county)
       .add("state", state)
-      .add("country_iso", country_iso)
+      .add("country_iso", countryIso)
       .add("country", country)
-      .add("postal_code", postal_code)
+      .add("postal_code", postalCode)
       .add("phone", phone)
       .add("latitude", latitude)
       .add("longitude", longitude)

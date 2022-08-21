@@ -5,16 +5,21 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Component
 public abstract class ApiIntegration {
 
+  @Autowired
+  private RestTemplate restTemplate;
   private static final Logger LOGGER = LoggerFactory.getLogger(ApiIntegration.class);
 
   private final String url;
@@ -31,7 +36,6 @@ public abstract class ApiIntegration {
   public String get(String endpoint, Map<String, String> parameters) {
 
     String finalUrl = url + endpoint;
-    RestTemplate restTemplate = new RestTemplate();
     HttpEntity<String> requestEntity = null;
 
     if (parameters == null) {

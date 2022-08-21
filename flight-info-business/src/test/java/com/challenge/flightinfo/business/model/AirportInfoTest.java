@@ -56,8 +56,8 @@ class AirportInfoTest {
   @Test
   void getStreet_number() {
     String expected = "streetNumber";
-    instance.setStreet_number(expected);
-    assertEquals(expected, instance.getStreet_number());
+    instance.setStreetNumber(expected);
+    assertEquals(expected, instance.getStreetNumber());
   }
 
   @Test
@@ -91,8 +91,8 @@ class AirportInfoTest {
   @Test
   void getCountry_iso() {
     String expected = "countryIso";
-    instance.setCountry_iso(expected);
-    assertEquals(expected, instance.getCountry_iso());
+    instance.setCountryIso(expected);
+    assertEquals(expected, instance.getCountryIso());
   }
 
   @Test
@@ -105,8 +105,8 @@ class AirportInfoTest {
   @Test
   void getPostal_code() {
     String expected = "postalCode";
-    instance.setPostal_code(expected);
-    assertEquals(expected, instance.getPostal_code());
+    instance.setPostalCode(expected);
+    assertEquals(expected, instance.getPostalCode());
   }
 
   @Test

@@ -35,8 +35,8 @@ class AirlineInfoTest {
   @Test
   void getLogo_url() {
     String expected = "url";
-    instance.setLogo_url(expected);
-    assertEquals(expected, instance.getLogo_url());
+    instance.setLogoUrl(expected);
+    assertEquals(expected, instance.getLogoUrl());
   }
 
   @Test
