@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  numberOfPlanes: {
+  numberOfClouds: {
     type: Number,
     default: 5,
   },
@@ -9,19 +9,24 @@ const props = defineProps({
     default: 2,
   },
 });
-const planeSrc = 'src/assets/plane.png';
-const planes = [];
-for (let i = 0; i < props.numberOfPlanes; i++) {
-  planes.push({ id: i});
-}
 
-console.log(planes);
+const cloudsFolder = "src/assets/clouds/cloud";
+const imageExtension = ".png";
+
+const randomClouds = () => {
+  const cloudsObj = [];
+  for (let i = 0; i < props.numberOfClouds; i++) {
+    const randomId = Math.floor(Math.random() * 9);
+    cloudsObj.push({ id: i, src: cloudsFolder + randomId + imageExtension });
+  }
+  return cloudsObj;
+};
 
 let marginVertical = () => {
-  return Math.random() * 480 + 'px ';
+  return Math.random() * 250 + "px ";
 };
 let marginHorizontal = () => {
-  return Math.random() * 500 + 'px ';
+  return Math.random() * 550 + "px ";
 };
 </script>
 
@@ -31,10 +36,10 @@ let marginHorizontal = () => {
       <div v-for="r in props.numberOfRows" :key="r" class="skyRow">
         <img
           alt=""
-          v-for="plane in planes"
-          :key="plane.id"
-          class="plane"
-          :src="planeSrc"
+          v-for="cloud in randomClouds()"
+          :key="cloud.id"
+          class="cloud"
+          :src="cloud.src"
           :style="{
             margin: marginVertical() + marginHorizontal() + '0 0',
           }"
@@ -48,35 +53,27 @@ let marginHorizontal = () => {
 .container {
   display: flex;
 }
+
 .sky {
   position: relative;
   width: 100vw;
+  height: 100%;
+  background-color: #4eadf5;
   overflow: hidden;
   margin: 0;
   padding: -5px;
-  animation: scroll 15s linear infinite;
 }
 
 .skyRow {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
-  width: 600px;
 }
 
-.plane {
+.cloud {
   flex: 0 0 auto;
   display: flex;
   justify-content: center;
   align-self: center;
-}
-
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-110vw);
-  }
 }
 </style>

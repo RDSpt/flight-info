@@ -1,139 +1,142 @@
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
   data: {
     type: Object,
   },
 });
 
-/*
+const emit = defineEmits('closeComponent');
 
-city: ""
-code: null
-country: "Canada"
-countryIso: "CA"
-county: "Montreal"
-iata: "YUL"
-icao: "CYUL"
-latitude: 45.465687
-location: "Montreal, Quebec, Canada"
-longitude: -73.74548
-name: "Montréal–Pierre Elliott Trudeau International Airport"
-phone: "+1 514-394-7377"
-postalCode: ""
-state: "Quebec"
-street: ""
-streetNumber: ""
-uct: -240
-website: "http://www.admtl.com/"
-*/
+const calculateNewLat = (lat, kmToAdd) => {
+  const r_earth = 6378;
+  return lat + (kmToAdd / r_earth) * (180 / Math.PI);
+};
+
+const calculateNewLon = (lon, lat, kmToAdd) => {
+  const r_earth = 6378;
+  return (
+    lon +
+    ((kmToAdd / r_earth) * (180 / Math.PI)) / Math.cos((lat * Math.PI) / 180)
+  );
+};
 
 const openMap = () => {
   const lat = props.data.latitude;
   const lon = props.data.longitude;
-  const r_earth = 6378;
-  const new_latitude = lat + (10 / r_earth) * (180 / Math.pi);
-  const new_longitude =
-    lon + ((10 / r_earth) * (180 / Math.pi)) / Math.cos((lat * Math.pi) / 180);
+  const addKm = 5;
+  const posLat = calculateNewLat(lat, addKm);
+  const negLat = calculateNewLat(lat, -addKm);
+  const posLon = calculateNewLon(lon, lat, addKm);
+  const negLon = calculateNewLon(lon, lat, -addKm);
+
+  console.log(
+    'lat,lon,posLat, posLon, negLat, negLon',
+    lat,
+    lon,
+    posLat,
+    posLon,
+    negLat,
+    negLon
+  );
   return (
     'https://www.openstreetmap.org/export/embed.html?bbox=' +
-    lon +
+    negLon +
     '%2C' +
+    negLat +
+    '%2C' +
+    posLon +
+    '%2C' +
+    posLat +
+    '&layer=mapnik&marker=' +
     lat +
     '%2C' +
-    new_longitude +
-    '%2C' +
-    new_latitude +
-    '&amp;layer=mapnik&amp;marker=' +
-    lon +
-    '%2C' +
-    lat
+    lon
   );
+};
+
+const redirectToWebsite = () => {
+  location.href = props.data.website;
+};
+
+const close = () => {
+  emit('closeComponent');
 };
 </script>
 
 <template>
-  <v-card elevation="20" shaped>
-    <v-card-text class="white--text">
+  <v-card class="card" elevation="20" shaped>
+    <v-card-title class="white-text">
       {{ props.data.name }}
-    </v-card-text>
+    </v-card-title>
     <v-container>
       <v-row>
-        <v-col>
-          <v-text-field
-            :value="props.data.iata"
-            label="IATA"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.icao"
-            label="ICAO"
-            readonly
-          ></v-text-field>
-        </v-col>
+        <v-text-field v-model="props.data.iata" label="IATA" readonly />
+        <v-text-field v-model="props.data.icao" label="ICAO" readonly />
+        <v-text-field v-model="props.data.code" label="Code" readonly />
       </v-row>
       <v-row>
-        <v-col>
-          <v-text-field
-            :value="props.data.code"
-            label="Code"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.country"
-            label="Country"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.countryIso"
-            label="Country Iso"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.county"
-            label="County"
-            readonly
-          ></v-text-field>
-        </v-col>
+        <v-text-field v-model="props.data.country" label="Country" readonly />
+        <v-text-field
+          v-model="props.data.countryIso"
+          label="Country Iso"
+          readonly
+        />
+        <v-text-field v-model="props.data.county" label="County" readonly />
       </v-row>
       <v-row>
-        <v-col>
-          <v-text-field
-            :value="props.data.phone"
-            label="Phone"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.postalCode"
-            label="Postal Code"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.state"
-            label="State"
-            readonly
-          ></v-text-field>
-          <v-text-field
-            :value="props.data.website"
-            label="Website"
-            readonly
-          ></v-text-field>
-        </v-col>
+        <v-text-field v-model="props.data.phone" label="Phone" readonly />
+        <v-text-field
+          v-model="props.data.postalCode"
+          label="Postal Code"
+          readonly
+        />
+        <v-text-field v-model="props.data.state" label="State" readonly />
       </v-row>
       <v-row>
-        <v-col>
-          <iframe
-            width="425"
-            height="350"
-            frameborder="0"
-            scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            :src="openMap"
-          ></iframe>
-        </v-col>
+        <v-text-field
+          v-model="props.data.website"
+          label="Website"
+          readonly
+          append-outer-icon="mdi-external-link"
+          @click:append-outer="redirectToWebsite"
+        />
+      </v-row>
+      <v-row>
+        <iframe
+          width="425"
+          height="350"
+          frameborder="0"
+          scrolling="no"
+          marginheight="0"
+          marginwidth="0"
+          :src="openMap()"
+        ></iframe>
       </v-row>
     </v-container>
+    <v-divider></v-divider>
+
+    <v-card-actions>
+      <v-btn text @click="close"> Close </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
-<style scoped></style>
+<style scoped>
+.card {
+  position: fixed;
+  top: 10%;
+  left: 20%;
+  width: 50%;
+  z-index: 999;
+}
+
+* {
+  margin: 3px;
+}
+
+iframe {
+  width: 100%;
+}
+</style>

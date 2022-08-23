@@ -1,13 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import AirportInfo from './AirportInfo.vue';
+import axios from 'Axios';
 
-const airpotCode = ref('');
+const options = ['Airline', 'Airport'];
+const airportInput = ref('');
 const selectedOption = ref('');
 const iata = ref('');
 const icao = ref('');
 const name = ref('');
-let airport = ref('');
+let airports = reactive({ data: [] });
 
 const authHeader = () => {
   // return authorization header with basic auth credentials
@@ -16,62 +18,44 @@ const authHeader = () => {
   return { Authorization: 'Basic ' + encodedUserPw };
 };
 
-const submit = () => {
-  airport = [];
-  let endpoint;
+const getEndpoint = () => {
   if (selectedOption.value === 'Airline') {
-    endpoint = 'https://127.0.0.1:8443/flight-info/airline'; //?searchType=NAME&value=TAP';
+    return 'https://127.0.0.1:8443/flight-info/airline'; //?searchType=NAME&value=TAP';
   } else if (selectedOption.value === 'Airport') {
-    endpoint = 'https://127.0.0.1:8443/flight-info/airport';
-    if (airpotCode.value.length > 0) {
-      endpoint += '?airportCode=' + airpotCode.value;
+    if (airportInput.value.length > 0) {
+      return (
+        'https://127.0.0.1:8443/flight-info/airport?airportCode=' +
+        airportInput.value
+      );
     }
   }
+};
 
+const submit = async () => {
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
   };
-  console.log(endpoint);
-  fetch(endpoint, requestOptions).then((response) => {
-    response.json().then(function (data) {
-      console.log(data)
-      console.log(data.data)
-      airport = data.data;
-    });
-    console.log(airport);
-  });
+
+  axios
+    .get(getEndpoint(), requestOptions)
+    .then((response) => {
+      airports.data = response.data.data;
+    })
+    .catch((error) => console.log(error));
 };
 
-// const fetchEndpoint = (endpoint) => {
-//   return fetch(endpoint)
-//     .then(
-//     function(response) {
-//         if (response.status !== 200) {
-//         console.log('Looks like there was a problem. Status Code: ' +
-//             response.status);
-//         return;
-//         }
-
-//         // Examine the text in the response
-//         response.json().then(function(data) {
-//         console.log(data);
-//         });
-//     }
-//     )
-//     .catch(function(err) {
-//     console.log('Fetch Error :-S', err);
-//     });
-// }
-
-const options = ['Airline', 'Airport'];
+const resetAirports = () => {
+  airports.data = [];
+};
 </script>
 
 <template>
+  <!-- <v-card class="center" elevation="20" shaped> -->
   <v-container class="grey lighten-5 mb-6 center">
     <v-form ref="form">
       <v-row justify="center">
-        <v-col cols="6" md="2">
+        <v-col cols="6" md="3">
           <v-select
             label="What are you searching for?"
             :items="options"
@@ -83,7 +67,7 @@ const options = ['Airline', 'Airport'];
         <v-col cols="20" md="4">
           <v-text-field
             v-if="selectedOption === 'Airport'"
-            v-model="airpotCode"
+            v-model="airportInput"
             label="Please insert Aiport Code?"
             solo
           ></v-text-field>
@@ -116,7 +100,7 @@ const options = ['Airline', 'Airport'];
             large
             fab
             color="indigo"
-            v-on:click="submit"
+            @click="submit"
           >
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
@@ -124,7 +108,13 @@ const options = ['Airline', 'Airport'];
       </v-row>
     </v-form>
   </v-container>
-  <airport-info v-for="a in airport.length" :key="a.iata" data="a" />
+  <!-- </v-card> -->
+  <airport-info
+    v-for="airport in airports.data"
+    :key="airport.iata"
+    :data="airport"
+    @closeComponent="resetAirports"
+  />
 </template>
 
 <style scoped>

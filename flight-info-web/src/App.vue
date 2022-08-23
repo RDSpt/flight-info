@@ -1,7 +1,7 @@
 <script setup>
-import FrontElement from './components/FrontElement.vue';
-import AnimatedBackground from './components/AnimatedBackground.vue';
-import LogoComp from './components/LogoComp.vue';
+import FrontElement from "./components/FrontElement.vue";
+import AnimatedBackground from "./components/background/AnimatedBackground.vue";
+import LogoComp from "./components/background/LogoComp.vue";
 </script>
 
 <template>

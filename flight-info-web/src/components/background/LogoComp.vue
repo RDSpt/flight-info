@@ -1,5 +1,5 @@
 <script setup>
-const logoSrc = 'src/assets/flightinfo-logo.png';
+const logoSrc = "src/assets/flightinfo-logo.png";
 </script>
 
 <template>

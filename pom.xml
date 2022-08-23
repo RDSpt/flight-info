@@ -20,7 +20,6 @@
     <modules>
         <module>flight-info-service</module>
         <module>flight-info-business</module>
-        <module>flight-info-persistence</module>
     </modules>
 
 
