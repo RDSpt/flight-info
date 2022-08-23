@@ -38,6 +38,7 @@ public class FlightInfoControllerImpl implements FlightInfoController {
     AirportInfo info = service.getAirportInfo(airportCode);
 
     JsonResponse<AirportInfo> response = new JsonResponseBuilder<AirportInfo>().data(info).build();
+    LOGGER.info("< FlightInfoControllerImpl.getAirportInfo() - {}", response);
     return ResponseEntity.ok(response);
   }
 

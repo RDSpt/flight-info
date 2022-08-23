@@ -10,6 +10,7 @@ const iata = ref('');
 const icao = ref('');
 const name = ref('');
 let airports = reactive({ data: [] });
+let errors = reactive({ text: '' });
 
 const authHeader = () => {
   // return authorization header with basic auth credentials
@@ -37,12 +38,16 @@ const submit = async () => {
     headers: authHeader(),
   };
 
-  axios
-    .get(getEndpoint(), requestOptions)
-    .then((response) => {
+  axios.get(getEndpoint(), requestOptions).then((response) => {
+    if (response.data.data[0].error) {
+      errors.text = response.data.data[0].error.text;
+      setTimeout(() => {
+        errors.text = '';
+      }, 2000);
+    } else {
       airports.data = response.data.data;
-    })
-    .catch((error) => console.log(error));
+    }
+  });
 };
 
 const resetAirports = () => {
@@ -51,6 +56,17 @@ const resetAirports = () => {
 </script>
 
 <template>
+  <div class="error-alert">
+    <v-alert
+      v-if="errors.text.length > 0"
+      v-model="errors"
+      close-text="Close Alert"
+      color="red"
+      dark
+    >
+      {{ errors.text }}
+    </v-alert>
+  </div>
   <!-- <v-card class="center" elevation="20" shaped> -->
   <v-container class="grey lighten-5 mb-6 center">
     <v-form ref="form">
@@ -121,6 +137,14 @@ const resetAirports = () => {
 .center {
   position: absolute;
   top: 50%;
+  z-index: 999;
+}
+
+.error-alert {
+  position: fixed;
+  top: 0%;
+  left: 20%;
+  width: 50vw;
   z-index: 999;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps({
   data: {
@@ -7,7 +7,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits('closeComponent');
+const emit = defineEmits("closeComponent");
 
 const calculateNewLat = (lat, kmToAdd) => {
   const r_earth = 6378;
@@ -31,27 +31,18 @@ const openMap = () => {
   const posLon = calculateNewLon(lon, lat, addKm);
   const negLon = calculateNewLon(lon, lat, -addKm);
 
-  console.log(
-    'lat,lon,posLat, posLon, negLat, negLon',
-    lat,
-    lon,
-    posLat,
-    posLon,
-    negLat,
-    negLon
-  );
   return (
-    'https://www.openstreetmap.org/export/embed.html?bbox=' +
+    "https://www.openstreetmap.org/export/embed.html?bbox=" +
     negLon +
-    '%2C' +
+    "%2C" +
     negLat +
-    '%2C' +
+    "%2C" +
     posLon +
-    '%2C' +
+    "%2C" +
     posLat +
-    '&layer=mapnik&marker=' +
+    "&layer=mapnik&marker=" +
     lat +
-    '%2C' +
+    "%2C" +
     lon
   );
 };
@@ -61,7 +52,7 @@ const redirectToWebsite = () => {
 };
 
 const close = () => {
-  emit('closeComponent');
+  emit("closeComponent");
 };
 </script>
 

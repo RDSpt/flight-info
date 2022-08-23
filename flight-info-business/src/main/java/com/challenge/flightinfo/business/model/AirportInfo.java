@@ -1,6 +1,7 @@
 package com.challenge.flightinfo.business.model;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.SerializedName;
@@ -32,6 +33,8 @@ public class AirportInfo {
   private BigDecimal longitude;
   private Long uct;
   private String website;
+
+  private Map<String, String> error;
 
   public String getCode() {
     return code;
@@ -177,6 +180,14 @@ public class AirportInfo {
     this.website = website;
   }
 
+  public Map<String, String> getError() {
+    return error;
+  }
+
+  public void setError(Map<String, String> error) {
+    this.error = error;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -198,6 +209,7 @@ public class AirportInfo {
       .add("longitude", longitude)
       .add("uct", uct)
       .add("website", website)
+      .add("error", error)
       .toString();
   }
 }

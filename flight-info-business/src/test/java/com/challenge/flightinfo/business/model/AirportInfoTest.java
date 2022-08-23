@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -142,6 +144,14 @@ class AirportInfoTest {
     String expected = "website";
     instance.setWebsite(expected);
     assertEquals(expected, instance.getWebsite());
+  }
+
+  @Test
+  void getError() {
+    Map<String, String> expected = new HashMap<>();
+    expected.put("text", "error");
+    instance.setError(expected);
+    assertEquals(expected, instance.getError());
   }
 
   @Test
