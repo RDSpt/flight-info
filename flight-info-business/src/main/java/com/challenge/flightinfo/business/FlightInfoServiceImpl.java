@@ -28,7 +28,7 @@ public class FlightInfoServiceImpl implements FlightInfoService {
   @Override
   public AirportInfo getAirportInfo(String airportCode) {
     LOGGER.info("> FlightInfoServiceImpl.getAirportInfo() - Requesting Aiport info for code {}", airportCode);
-    return airportApi.getAirport(airportCode);
+    return airportApi.getAirport(airportCode.toUpperCase());
   }
 
   @Override

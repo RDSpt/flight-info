@@ -8,8 +8,6 @@ import com.challenge.flightinfo.model.JsonResponse;
 
 public interface FlightInfoController {
 
-  ResponseEntity<JsonResponse<AirportInfo>> getAirports();
-
   ResponseEntity<JsonResponse<AirportInfo>> getAirportInfo(String airportCode);
 
   ResponseEntity<JsonResponse<AirlineInfo>> getAirlineInfo(String value, String searchType);

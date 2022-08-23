@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,19 +21,13 @@ import com.challenge.flightinfo.model.JsonResponseBuilder;
 
 @RestController
 @RequestMapping("/flight-info")
+@CrossOrigin
 public class FlightInfoControllerImpl implements FlightInfoController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FlightInfoControllerImpl.class);
 
   @Autowired
   FlightInfoService service;
-
-  @Override
-  @GetMapping(value = "/airport")
-  public ResponseEntity<JsonResponse<AirportInfo>> getAirports() {
-    JsonResponse<AirportInfo> response = new JsonResponseBuilder<AirportInfo>().build();
-    return ResponseEntity.ok(response);
-  }
 
   @Override
   @GetMapping(value = "/airport", params = "airportCode")

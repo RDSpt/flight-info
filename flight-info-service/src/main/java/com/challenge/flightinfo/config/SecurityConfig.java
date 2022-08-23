@@ -15,9 +15,7 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests((auth) -> auth.anyRequest().authenticated()).httpBasic(withDefaults());
-    return http.build();
+    return http.cors().and().build();
   }
-
-
 
 }

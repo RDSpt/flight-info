@@ -62,7 +62,6 @@ let marginHorizontal = () => {
   overflow: hidden;
   margin: 0;
   padding: -5px;
-  animation: scroll 60s linear infinite;
 }
 
 .skyRow {
@@ -76,14 +75,5 @@ let marginHorizontal = () => {
   display: flex;
   justify-content: center;
   align-self: center;
-}
-
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100vw);
-  }
 }
 </style>

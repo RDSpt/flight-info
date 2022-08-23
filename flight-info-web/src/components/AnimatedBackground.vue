@@ -9,7 +9,7 @@ import AnimatedPlane from './AnimatedPlane.vue';
       <animated-sky :number-of-clouds="15" :number-of-rows="3" />
     </div>
     <div class="el2">
-      <animated-plane :number-of-planes="5" :number-of-rows="2" />
+      <animated-plane :number-of-planes="1" :number-of-rows="2" />
     </div>
   </div>
 </template>
@@ -18,13 +18,33 @@ import AnimatedPlane from './AnimatedPlane.vue';
 .grid-animation {
   max-height: 50vw;
   display: flex;
+  animation: scroll 60s linear infinite;
+  position: relative;
 }
 
-.el1 .el2 {
+.el1 {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.el2{
+  z-index: 90;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100vw);
+  }
 }
 </style>

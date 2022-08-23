@@ -12,14 +12,16 @@ const props = defineProps({
 const planeSrc = 'src/assets/plane.png';
 const planes = [];
 for (let i = 0; i < props.numberOfPlanes; i++) {
-  planes.push({ id: i, src: planeSrc });
+  planes.push({ id: i});
 }
 
+console.log(planes);
+
 let marginVertical = () => {
-  return Math.random() * 1000 + 'px ';
+  return Math.random() * 480 + 'px ';
 };
 let marginHorizontal = () => {
-  return Math.random() * 500 + 1000 + 'px ';
+  return Math.random() * 500 + 'px ';
 };
 </script>
 
@@ -28,10 +30,11 @@ let marginHorizontal = () => {
     <div class="sky" v-for="r in 4" :key="r">
       <div v-for="r in props.numberOfRows" :key="r" class="skyRow">
         <img
+          alt=""
           v-for="plane in planes"
           :key="plane.id"
           class="plane"
-          :src="plane.planeSrc"
+          :src="planeSrc"
           :style="{
             margin: marginVertical() + marginHorizontal() + '0 0',
           }"
@@ -58,6 +61,7 @@ let marginHorizontal = () => {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
+  width: 600px;
 }
 
 .plane {
