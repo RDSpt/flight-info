@@ -4,15 +4,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.challenge.flightinfo.business.model.AircraftInfo;
 import com.challenge.flightinfo.business.model.AirlineInfo;
 import com.google.gson.Gson;
 
 @Component
 public class AirlineApi extends ApiIntegration {
 
+  @Autowired
+  private AircraftApi aircraftApi;
+
   private static final String URL = "https://airlines-by-api-ninjas.p.rapidapi.com/v1";
+  private final List<String> excludedWords = Arrays.asList("total","CRJ"); //ICAOs not recognized
 
   public AirlineApi() {
     super(URL);
@@ -25,29 +31,43 @@ public class AirlineApi extends ApiIntegration {
     parameters.put(ENDPOINT.AIRLINE_NAME.getParameters()[0], name);
 
     String jsonResponse = get(ENDPOINT.AIRLINE_NAME.getEndpointUrl(), parameters);
-    AirlineInfo[] airlinesList= new Gson().fromJson(jsonResponse, AirlineInfo[].class);
+    AirlineInfo[] airlinesList = new Gson().fromJson(jsonResponse, AirlineInfo[].class);
+    Arrays.stream(airlinesList).forEach(this::enrichFleet);
 
     return Arrays.asList(airlinesList);
   }
 
   public List<AirlineInfo> getAirlineByIcao(String icao) {
     HashMap<String, String> parameters = new HashMap<>();
-    parameters.put(ENDPOINT.AIRLINE_NAME.getParameters()[0], icao);
+    parameters.put(ENDPOINT.AIRLINE_ICAO.getParameters()[0], icao);
 
     String jsonResponse = get(ENDPOINT.AIRLINE_ICAO.getEndpointUrl(), parameters);
-    AirlineInfo[] airlinesList= new Gson().fromJson(jsonResponse, AirlineInfo[].class);
+    AirlineInfo[] airlinesList = new Gson().fromJson(jsonResponse, AirlineInfo[].class);
+    Arrays.stream(airlinesList).forEach(this::enrichFleet);
 
     return Arrays.asList(airlinesList);
   }
 
   public List<AirlineInfo> getAirlineByIata(String iata) {
     HashMap<String, String> parameters = new HashMap<>();
-    parameters.put(ENDPOINT.AIRLINE_NAME.getParameters()[0], iata);
+    parameters.put(ENDPOINT.AIRLINE_IATA.getParameters()[0], iata);
 
     String jsonResponse = get(ENDPOINT.AIRLINE_IATA.getEndpointUrl(), parameters);
-    AirlineInfo[] airlinesList= new Gson().fromJson(jsonResponse, AirlineInfo[].class);
+    AirlineInfo[] airlinesList = new Gson().fromJson(jsonResponse, AirlineInfo[].class);
+    Arrays.stream(airlinesList).forEach(this::enrichFleet);
 
     return Arrays.asList(airlinesList);
+  }
+
+  private void enrichFleet(AirlineInfo airlineInfo) {
+
+    for (String aircraftIcao : airlineInfo.getFleet().keySet()) {
+      if (!excludedWords.contains(aircraftIcao)) {
+        AircraftInfo aircraft = aircraftApi.getByIcao(aircraftIcao);
+        aircraft.setQuantity(airlineInfo.getFleet().get(aircraftIcao));
+        airlineInfo.addFleetInfo(aircraft);
+      }
+    }
   }
 
   public enum ENDPOINT {

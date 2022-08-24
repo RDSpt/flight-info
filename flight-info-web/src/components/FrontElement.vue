@@ -1,6 +1,7 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import AirportInfo from './AirportInfo.vue';
+import AirlineInfo from './AirlineInfo.vue';
 import axios from 'Axios';
 
 const options = ['Airline', 'Airport'];
@@ -10,7 +11,9 @@ const iata = ref('');
 const icao = ref('');
 const name = ref('');
 let airports = reactive({ data: [] });
+let airlines = reactive({ data: [] });
 let errors = reactive({ text: '' });
+let waiting= ref(false);
 
 const authHeader = () => {
   // return authorization header with basic auth credentials
@@ -21,7 +24,14 @@ const authHeader = () => {
 
 const getEndpoint = () => {
   if (selectedOption.value === 'Airline') {
-    return 'https://127.0.0.1:8443/flight-info/airline'; //?searchType=NAME&value=TAP';
+    let endpoint = 'https://127.0.0.1:8443/flight-info/airline'; //?searchType=NAME&value=TAP';
+    if (icao.value.length > 0) {
+      return endpoint + '?searchType=ICAO&value=' + icao.value;
+    } else if (iata.value.length > 0) {
+      return endpoint + '?searchType=IATA&value=' + iata.value;
+    } else if (name.value.length > 0) {
+      return endpoint + '?searchType=NAME&value=' + name.value;
+    }
   } else if (selectedOption.value === 'Airport') {
     if (airportInput.value.length > 0) {
       return (
@@ -33,26 +43,63 @@ const getEndpoint = () => {
 };
 
 const submit = async () => {
+  waiting.value = true;
   const requestOptions = {
     method: 'GET',
     headers: authHeader(),
   };
 
   axios.get(getEndpoint(), requestOptions).then((response) => {
-    if (response.data.data[0].error) {
-      errors.text = response.data.data[0].error.text;
-      setTimeout(() => {
-        errors.text = '';
-      }, 2000);
-    } else {
-      airports.data = response.data.data;
+    if (selectedOption.value === 'Airline') {
+      airlineResponse(response);
+    } else if (selectedOption.value === 'Airport') {
+      airportResponse(response);
     }
+    waiting.value = false;
   });
 };
 
-const resetAirports = () => {
-  airports.data = [];
+const airportResponse = (response) => {
+  if (response.data.data[0].error) {
+    errors.text = response.data.data[0].error.text;
+    setTimeout(() => {
+      errors.text = '';
+    }, 2000);
+  } else {
+    airports.data = response.data.data;
+  }
 };
+
+const airlineResponse = (response) => {
+  if (response.data.data[0].error) {
+    errors.text = response.data.data[0].error.text;
+    setTimeout(() => {
+      errors.text = '';
+    }, 2000);
+  } else {
+    airlines.data = response.data.data;
+  }
+};
+
+const resetAirports = () => {
+  airports.data.pop(airports.data.length - 1);
+};
+
+const resetAirlines = () => {
+  airlines.data.pop(airlines.data.length - 1);
+};
+
+const iataDisabled = computed(
+  () => icao.value.length > 0 || name.value.length > 0
+);
+
+const icaoDisabled = computed(
+  () => iata.value.length > 0 || name.value.length > 0
+);
+
+const nameDisabled = computed(
+  () => icao.value.length > 0 || iata.value.length > 0
+);
 </script>
 
 <template>
@@ -67,11 +114,10 @@ const resetAirports = () => {
       {{ errors.text }}
     </v-alert>
   </div>
-  <!-- <v-card class="center" elevation="20" shaped> -->
-  <v-container class="grey lighten-5 mb-6 center">
+  <v-card class="main-card" elevation="20" shaped>
     <v-form ref="form">
       <v-row justify="center">
-        <v-col cols="6" md="3">
+        <v-col cols="6">
           <v-select
             label="What are you searching for?"
             :items="options"
@@ -80,37 +126,45 @@ const resetAirports = () => {
             solo
           ></v-select
         ></v-col>
-        <v-col cols="20" md="4">
+        <v-col cols="20">
           <v-text-field
             v-if="selectedOption === 'Airport'"
             v-model="airportInput"
+            counter="3"
+            clearable
             label="Please insert Aiport Code?"
             solo
           ></v-text-field>
-          <v-row justify="center">
+          <v-row justify="center" class="airlineRow">
             <v-text-field
+              class="airlineField"
               v-if="selectedOption === 'Airline'"
               v-model="iata"
               label="IATA"
               solo
+              :disabled="iataDisabled"
             ></v-text-field>
             <v-text-field
+              class="airlineField"
               v-if="selectedOption === 'Airline'"
               v-model="icao"
               label="ICAO"
               solo
+              :disabled="icaoDisabled"
             ></v-text-field>
             <v-text-field
+              class="airlineField"
               v-if="selectedOption === 'Airline'"
               v-model="name"
               label="NAME"
               solo
+              :disabled="nameDisabled"
             ></v-text-field>
           </v-row>
         </v-col>
-        <v-col cols="1" md="1">
+        <v-col cols="1">
           <v-btn
-            v-if="selectedOption"
+            v-if="selectedOption && !waiting"
             class="ma-2"
             outlined
             large
@@ -118,33 +172,57 @@ const resetAirports = () => {
             color="indigo"
             @click="submit"
           >
+            <v-progress-circular
+             v-if="waiting"
+              indeterminate
+              color="indigo"
+            ></v-progress-circular>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </v-col>
       </v-row>
     </v-form>
-  </v-container>
-  <!-- </v-card> -->
+  </v-card>
   <airport-info
     v-for="airport in airports.data"
     :key="airport.iata"
     :data="airport"
     @closeComponent="resetAirports"
   />
+  <airline-info
+    v-for="airline in airlines.data"
+    :key="airline.iata"
+    :data="airline"
+    @closeComponent="resetAirlines"
+  />
 </template>
 
 <style scoped>
-.center {
+.main-card {
   position: absolute;
   top: 50%;
+  left: 20%;
+  width: 60%;
   z-index: 999;
+  opacity: 75%;
 }
 
 .error-alert {
   position: fixed;
   top: 0%;
   left: 20%;
-  width: 50vw;
+  width: 60vw;
   z-index: 999;
+}
+
+.v-row {
+  margin: 0px;
+}
+
+.v-form {
+  opacity: 100%;
+}
+.airlineField {
+  margin: 0px 3px;
 }
 </style>

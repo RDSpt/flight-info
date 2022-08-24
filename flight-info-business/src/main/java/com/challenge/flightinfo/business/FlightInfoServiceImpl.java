@@ -34,18 +34,17 @@ public class FlightInfoServiceImpl implements FlightInfoService {
   @Override
   public List<AirlineInfo> getAirlineInfo(String value, String searchType) {
     AirlineSearchType airlineSearchType = AirlineSearchType.lookup(searchType);
-    List<AirlineInfo> response = new ArrayList<>();
+
     switch (airlineSearchType) {
       case IATA:
-        response = airlineApi.getAirlineByIata(value);
+        return airlineApi.getAirlineByIata(value);
       case ICAO:
-        response = airlineApi.getAirlineByIcao(value);
+        return airlineApi.getAirlineByIcao(value);
       case NAME:
-        response = airlineApi.getAirlineByName(value);
+        return airlineApi.getAirlineByName(value);
 
     }
 
-
-    return response;
+    return null;
   }
 }

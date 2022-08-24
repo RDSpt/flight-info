@@ -1,5 +1,7 @@
 package com.challenge.flightinfo.business.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.MoreObjects;
@@ -15,6 +17,7 @@ public class AirlineInfo {
   private String logoUrl;
   private String name;
   private Map<String, Long> fleet;
+  private List<AircraftInfo> fleetInfo;
 
   public String getIata() {
     return iata;
@@ -31,7 +34,6 @@ public class AirlineInfo {
   public void setIcao(String icao) {
     this.icao = icao;
   }
-
 
   public String getLogoUrl() {
     return logoUrl;
@@ -57,14 +59,30 @@ public class AirlineInfo {
     this.fleet = fleet;
   }
 
+  public List<AircraftInfo> getFleetInfo() {
+    return fleetInfo;
+  }
+
+  public void setFleetInfo(List<AircraftInfo> fleetInfo) {
+    this.fleetInfo = fleetInfo;
+  }
+
+  public void addFleetInfo(AircraftInfo fleetInfo) {
+    if(this.fleetInfo == null) {
+      this.fleetInfo = new ArrayList<>();
+    }
+    this.fleetInfo.add(fleetInfo);
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("iata", iata)
       .add("icao", icao)
-      .add("logo_url", logoUrl)
+      .add("logoUrl", logoUrl)
       .add("name", name)
       .add("fleet", fleet)
+      .add("fleetInfo", fleetInfo)
       .toString();
   }
 }

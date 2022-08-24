@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const props = defineProps({
   data: {
@@ -7,7 +7,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits("closeComponent");
+const emit = defineEmits('closeComponent');
 
 const calculateNewLat = (lat, kmToAdd) => {
   const r_earth = 6378;
@@ -32,27 +32,27 @@ const openMap = () => {
   const negLon = calculateNewLon(lon, lat, -addKm);
 
   return (
-    "https://www.openstreetmap.org/export/embed.html?bbox=" +
+    'https://www.openstreetmap.org/export/embed.html?bbox=' +
     negLon +
-    "%2C" +
+    '%2C' +
     negLat +
-    "%2C" +
+    '%2C' +
     posLon +
-    "%2C" +
+    '%2C' +
     posLat +
-    "&layer=mapnik&marker=" +
+    '&layer=mapnik&marker=' +
     lat +
-    "%2C" +
+    '%2C' +
     lon
   );
 };
 
 const redirectToWebsite = () => {
-  location.href = props.data.website;
+  window.open(props.data.website, '_blank').focus();
 };
 
 const close = () => {
-  emit("closeComponent");
+  emit('closeComponent');
 };
 </script>
 
@@ -90,8 +90,8 @@ const close = () => {
           v-model="props.data.website"
           label="Website"
           readonly
-          append-outer-icon="mdi-external-link"
-          @click:append-outer="redirectToWebsite"
+          append-icon="mdi-open-in-new"
+          @click:append="redirectToWebsite"
         />
       </v-row>
       <v-row>
