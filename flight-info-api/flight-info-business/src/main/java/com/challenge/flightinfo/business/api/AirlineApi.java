@@ -18,7 +18,7 @@ public class AirlineApi extends ApiIntegration {
   private AircraftApi aircraftApi;
 
   private static final String URL = "https://airlines-by-api-ninjas.p.rapidapi.com/v1";
-  private final List<String> excludedWords = Arrays.asList("total","CRJ"); //ICAOs not recognized
+  private final List<String> excludedWords = Arrays.asList("total", "CRJ"); //ICAOs not recognized
 
   public AirlineApi() {
     super(URL);
@@ -61,11 +61,13 @@ public class AirlineApi extends ApiIntegration {
 
   private void enrichFleet(AirlineInfo airlineInfo) {
 
-    for (String aircraftIcao : airlineInfo.getFleet().keySet()) {
-      if (!excludedWords.contains(aircraftIcao)) {
-        AircraftInfo aircraft = aircraftApi.getByIcao(aircraftIcao);
-        aircraft.setQuantity(airlineInfo.getFleet().get(aircraftIcao));
-        airlineInfo.addFleetInfo(aircraft);
+    if (airlineInfo.getFleet() != null) {
+      for (String aircraftIcao : airlineInfo.getFleet().keySet()) {
+        if (!excludedWords.contains(aircraftIcao)) {
+          AircraftInfo aircraft = aircraftApi.getByIcao(aircraftIcao);
+          aircraft.setQuantity(airlineInfo.getFleet().get(aircraftIcao));
+          airlineInfo.addFleetInfo(aircraft);
+        }
       }
     }
   }
