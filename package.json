@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "frontend": "cd flight-info-web && npm start",
-    "api": "cd flight-info-api && mvnw clean install -DskipTests && mvnw spring-boot:start",
+    "api": "cd flight-info-api && mvn clean install -DskipTests && mvn spring-boot:start",
     "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run frontend\"",
     "heroku-postbuild": "cd flight-info-web && npm install && npm run build",
     "start": "npm run dev"
