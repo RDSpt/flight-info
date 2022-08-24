@@ -22,6 +22,7 @@
     "pinia": "^2.0.17",
     "proton-engine": "^5.4.3",
     "raf-manager": "^0.3.0",
+    "redaxios": "^0.5.1",
     "roboto-fontface": "*",
     "vue": "^3.2.37",
     "vue-material-design-icons": "^5.1.2",

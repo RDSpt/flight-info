@@ -2,7 +2,7 @@
 import { ref, reactive, computed } from 'vue';
 import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
-import axios from 'Axios';
+import axios from 'redaxios';
 
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
