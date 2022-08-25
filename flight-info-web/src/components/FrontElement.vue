@@ -4,9 +4,8 @@ import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
-const host = () => {
-  return 'https://' + import.meta.env.FLIGHT_INFO_API + '/flight-info';
-};
+const host =
+  'https://' + import.meta.env.FLIGHT_INFO_API + '.herokuapp.com/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -30,15 +29,15 @@ const authHeader = () => {
 const getEndpoint = () => {
   if (selectedOption.value === 'Airline') {
     if (icao.value.length > 0) {
-      return host() + '/airline?searchType=ICAO&value=' + icao.value;
+      return host + '/airline?searchType=ICAO&value=' + icao.value;
     } else if (iata.value.length > 0) {
-      return host() + '/airline?searchType=IATA&value=' + iata.value;
+      return host + '/airline?searchType=IATA&value=' + iata.value;
     } else if (name.value.length > 0) {
-      return host() + '/airline?searchType=NAME&value=' + name.value;
+      return host + '/airline?searchType=NAME&value=' + name.value;
     }
   } else if (selectedOption.value === 'Airport') {
     if (airportInput.value.length > 0) {
-      return host() + '/airport?airportCode=' + airportInput.value;
+      return host + '/airport?airportCode=' + airportInput.value;
     }
   }
 };
