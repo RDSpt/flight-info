@@ -16,15 +16,6 @@ let airlines = reactive({ data: [] });
 let errors = reactive({ text: '' });
 let waiting = ref(false);
 
-const authHeader = () => {
-  // return authorization header with basic auth credentials
-  var basicAuth =
-    'Basic ' +
-    btoa(import.meta.env.VITE_SECURITY_USER + ':' + import.meta.env.VITE_SECURITY_PW);
-
-  return basicAuth;
-};
-
 const getEndpoint = () => {
   if (selectedOption.value === 'Airline') {
     if (icao.value.length > 0) {
@@ -43,14 +34,21 @@ const getEndpoint = () => {
 
 const submit = async () => {
   waiting.value = true;
-  const requestOptions = {
-    method: 'GET',
+  const config = {
+    method: 'get',
+    url: getEndpoint(),
     headers: {
-      Authorization: authHeader(),
+      Authorization:
+        'Basic ' +
+        btoa(
+          import.meta.env.VITE_SECURITY_USER +
+            ':' +
+            import.meta.env.VITE_SECURITY_PW
+        ),
     },
   };
 
-  fetch(getEndpoint(), requestOptions)
+  axios(config)
     .then((response) => {
       if (selectedOption.value === 'Airline') {
         airlineResponse(response);
