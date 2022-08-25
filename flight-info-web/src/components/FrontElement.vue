@@ -30,15 +30,15 @@ const authHeader = () => {
 const getEndpoint = () => {
   if (selectedOption.value === 'Airline') {
     if (icao.value.length > 0) {
-      return host + '/airline?searchType=ICAO&value=' + icao.value;
+      return host() + '/airline?searchType=ICAO&value=' + icao.value;
     } else if (iata.value.length > 0) {
-      return host + '/airline?searchType=IATA&value=' + iata.value;
+      return host() + '/airline?searchType=IATA&value=' + iata.value;
     } else if (name.value.length > 0) {
-      return host + '/airline?searchType=NAME&value=' + name.value;
+      return host() + '/airline?searchType=NAME&value=' + name.value;
     }
   } else if (selectedOption.value === 'Airport') {
     if (airportInput.value.length > 0) {
-      return host + '/airport?airportCode=' + airportInput.value;
+      return host() + '/airport?airportCode=' + airportInput.value;
     }
   }
 };
