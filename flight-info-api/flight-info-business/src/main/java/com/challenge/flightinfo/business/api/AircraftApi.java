@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 @Component
 public class AircraftApi extends ApiIntegration {
 
-  private static final String URL = "https://aviation-reference-data.p.rapidapi.com/icaoType/";
+  private static final String URL = "https://aviation-reference-data.p.rapidapi.com/icaoType";
 
   public AircraftApi() {
     super(URL);
