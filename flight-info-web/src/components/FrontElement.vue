@@ -32,6 +32,8 @@ const getEndpoint = () => {
   }
 };
 
+console.log(import.meta.env.VITE_SECURITY_USER +':' +import.meta.env.VITE_SECURITY_PW);
+
 const submit = async () => {
   waiting.value = true;
   const config = {
