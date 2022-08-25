@@ -4,6 +4,7 @@ import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
+const host = 'https://localhost:80/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -13,32 +14,28 @@ const name = ref('');
 let airports = reactive({ data: [] });
 let airlines = reactive({ data: [] });
 let errors = reactive({ text: '' });
-let waiting= ref(false);
+let waiting = ref(false);
 
 const authHeader = () => {
   // return authorization header with basic auth credentials
-  var basicAuth = 'Basic ' + btoa(process.env.SECURITY_USER + ':' + process.env.SECURITY_PW);
-  
+  var basicAuth =
+    'Basic ' + btoa(process.env.SECURITY_USER + ':' + process.env.SECURITY_PW);
 
   return { Authorization: basicAuth };
 };
 
 const getEndpoint = () => {
   if (selectedOption.value === 'Airline') {
-    let endpoint = 'https://127.0.0.1:8443/flight-info/airline'; //?searchType=NAME&value=TAP';
     if (icao.value.length > 0) {
-      return endpoint + '?searchType=ICAO&value=' + icao.value;
+      return host + '/airline?searchType=ICAO&value=' + icao.value;
     } else if (iata.value.length > 0) {
-      return endpoint + '?searchType=IATA&value=' + iata.value;
+      return host + '/airline?searchType=IATA&value=' + iata.value;
     } else if (name.value.length > 0) {
-      return endpoint + '?searchType=NAME&value=' + name.value;
+      return host + '/airline?searchType=NAME&value=' + name.value;
     }
   } else if (selectedOption.value === 'Airport') {
     if (airportInput.value.length > 0) {
-      return (
-        'https://127.0.0.1:8443/flight-info/airport?airportCode=' +
-        airportInput.value
-      );
+      return host + '/airport?airportCode=' + airportInput.value;
     }
   }
 };
@@ -174,7 +171,7 @@ const nameDisabled = computed(
             @click="submit"
           >
             <v-progress-circular
-             v-if="waiting"
+              v-if="waiting"
               indeterminate
               color="indigo"
             ></v-progress-circular>
