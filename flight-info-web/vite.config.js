@@ -15,7 +15,7 @@ export default defineConfig({
     },
     server: {
       open: true,
-      origin: 'http://127.0.0.1:$PORT/'
+      origin: 'https://flight-info-web.herokuapp.com'
     },
   },
 });
