@@ -15,3 +15,5 @@ app.use(createPinia());
 app.use(vuetify);
 
 app.mount('#app');
+
+console.log(process.env);
