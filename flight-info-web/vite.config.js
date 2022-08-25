@@ -12,10 +12,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-    server: {
-      open: true,
-      origin: 'https://flight-info-web.herokuapp.com'
-    },
+    }
   },
 });
