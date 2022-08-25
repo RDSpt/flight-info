@@ -20,7 +20,7 @@ const authHeader = () => {
   // return authorization header with basic auth credentials
   var basicAuth =
     'Basic ' +
-    btoa(import.meta.env.SECURITY_USER + ':' + import.meta.env.SECURITY_PW);
+    btoa(import.meta.env.VITE_SECURITY_USER + ':' + import.meta.env.VITE_SECURITY_PW);
 
   return basicAuth;
 };
