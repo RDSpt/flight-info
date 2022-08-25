@@ -2,11 +2,11 @@
   "name": "flight-info",
   "version": "0.0.0",
   "scripts": {
-    "frontend": "cd flight-info-web && npm run heroku",
+    "frontend": "cd flight-info-web && npm run dev",
     "api": "cd flight-info-api && mvn clean install -DskipTests && mvn spring-boot:start",
     "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run frontend\"",
     "heroku-postbuild": "cd flight-info-web && npm install && npm run build",
-    "start":"npm run frontend"
+    "start":"npm run frontend --port $PORT"
   },
   "dependencies": {
     "concurrently": "^7.3.0"

@@ -1,2 +1,2 @@
 web: npm run start
-worker: mvn spring-boot:start
+worker: java -Dserver.port=$PORT $JAVA_OPTS -jar target/*.jar
