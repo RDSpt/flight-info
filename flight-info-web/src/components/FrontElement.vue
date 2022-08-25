@@ -4,7 +4,7 @@ import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
-const host = import.meta.env.API_URL+'/flight-info';
+const host = import.meta.env.FLIGHT_INFO_API + '/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -19,7 +19,8 @@ let waiting = ref(false);
 const authHeader = () => {
   // return authorization header with basic auth credentials
   var basicAuth =
-    'Basic ' + btoa(import.meta.env.SECURITY_USER + ':' + import.meta.env.SECURITY_PW);
+    'Basic ' +
+    btoa(import.meta.env.SECURITY_USER + ':' + import.meta.env.SECURITY_PW);
 
   return { Authorization: basicAuth };
 };
