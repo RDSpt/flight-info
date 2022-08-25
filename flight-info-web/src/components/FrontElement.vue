@@ -5,7 +5,9 @@ import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
 const host =
-  'https://' + import.meta.env.VITE_FLIGHT_INFO_API + '.herokuapp.com/flight-info';
+  'https://' +
+  import.meta.env.VITE_FLIGHT_INFO_API +
+  '.herokuapp.com/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -23,7 +25,7 @@ const authHeader = () => {
     'Basic ' +
     btoa(import.meta.env.SECURITY_USER + ':' + import.meta.env.SECURITY_PW);
 
-  return { Authorization: basicAuth };
+  return basicAuth;
 };
 
 const getEndpoint = () => {
@@ -46,7 +48,11 @@ const submit = async () => {
   waiting.value = true;
   const requestOptions = {
     method: 'GET',
-    headers: authHeader(),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      Authorization: authHeader(),
+    },
   };
 
   axios.get(getEndpoint(), requestOptions).then((response) => {
