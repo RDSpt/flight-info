@@ -17,9 +17,10 @@ let waiting= ref(false);
 
 const authHeader = () => {
   // return authorization header with basic auth credentials
-  const encodedUserPw = 'ZmxpZ2h0aW5mbzpzaWVtZW5z';
+  var basicAuth = 'Basic ' + btoa(process.env.SECURITY_USER + ':' + process.env.SECURITY_PW);
+  
 
-  return { Authorization: 'Basic ' + encodedUserPw };
+  return { Authorization: basicAuth };
 };
 
 const getEndpoint = () => {
