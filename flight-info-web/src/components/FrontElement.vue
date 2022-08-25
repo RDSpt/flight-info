@@ -4,7 +4,7 @@ import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
-const host = import.meta.env.FLIGHT_INFO_API + '/flight-info';
+const host = 'https://' + import.meta.env.FLIGHT_INFO_API + '/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -163,7 +163,7 @@ const nameDisabled = computed(
         </v-col>
         <v-col cols="1">
           <v-btn
-            v-if="selectedOption && !waiting"
+            v-if="selectedOption"
             class="ma-2"
             outlined
             large
@@ -171,11 +171,6 @@ const nameDisabled = computed(
             color="indigo"
             @click="submit"
           >
-            <v-progress-circular
-              v-if="waiting"
-              indeterminate
-              color="indigo"
-            ></v-progress-circular>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </v-col>
