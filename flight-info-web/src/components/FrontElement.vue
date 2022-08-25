@@ -5,7 +5,7 @@ import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
 const host =
-  'https://' + import.meta.env.FLIGHT_INFO_API + '.herokuapp.com/flight-info';
+  'https://' + import.meta.env.VITE_FLIGHT_INFO_API + '.herokuapp.com/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
