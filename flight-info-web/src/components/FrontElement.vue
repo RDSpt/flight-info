@@ -4,10 +4,7 @@ import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
-const host =
-  'https://' +
-  import.meta.env.VITE_FLIGHT_INFO_API +
-  '.herokuapp.com/flight-info';
+const host = import.meta.env.VITE_FLIGHT_INFO_API + '/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -53,8 +50,7 @@ const submit = async () => {
     },
   };
 
-  axios
-    .get(getEndpoint(), requestOptions)
+  fetch(getEndpoint(), requestOptions)
     .then((response) => {
       if (selectedOption.value === 'Airline') {
         airlineResponse(response);
