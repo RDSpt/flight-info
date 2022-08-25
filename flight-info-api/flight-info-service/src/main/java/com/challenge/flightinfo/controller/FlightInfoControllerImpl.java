@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +20,7 @@ import com.challenge.flightinfo.model.JsonResponse;
 import com.challenge.flightinfo.model.JsonResponseBuilder;
 
 @RestController
-@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+@CrossOrigin
 @RequestMapping("/flight-info")
 public class FlightInfoControllerImpl implements FlightInfoController {
 
@@ -31,7 +30,7 @@ public class FlightInfoControllerImpl implements FlightInfoController {
   FlightInfoService service;
 
   @Override
-  @GetMapping(value = "/airport", params = "airportCode")
+  @RequestMapping(method = {RequestMethod.GET, RequestMethod.OPTIONS}, value = "/airport", params = "airportCode")
   public ResponseEntity<JsonResponse<AirportInfo>> getAirportInfo(@RequestParam String airportCode) {
     Objects.requireNonNull(airportCode, "Airport Code must not be null");
     LOGGER.info("> FlightInfoControllerImpl.getAirportInfo() - Requesting Aiport info for code {}", airportCode);
@@ -43,11 +42,10 @@ public class FlightInfoControllerImpl implements FlightInfoController {
     return ResponseEntity.ok(response);
   }
 
-
   @Override
-  @GetMapping(value = "/airline", params = {"value", "searchType"})
+  @RequestMapping(method = {RequestMethod.GET, RequestMethod.OPTIONS}, value = "/airline", params = {"value", "searchType"})
   public ResponseEntity<JsonResponse<AirlineInfo>> getAirlineInfo(String value, String searchType) {
-    //    LOGGER.info("> FlightInfoControllerImpl.getAirportInfo() - Requesting Aiport info for code {}", airportCode);
+    LOGGER.info("> FlightInfoControllerImpl.getAirlineInfo() - Requesting Airline info for {}", value);
 
     List<AirlineInfo> info = service.getAirlineInfo(value, searchType);
 
