@@ -10,9 +10,9 @@
     "dev": "vite",
     "preview": "vite preview --port 4173",
     "test:e2e:ci": "start-server-and-test preview http://localhost:4173/ 'cypress run --e2e'",
-    "heroku":"vite --port $PORT --host 0.0.0.0",
+    "heroku": "vite --port $PORT --host 0.0.0.0",
     "heroku-postbuild": "cd flight-info-web && npm install && npm run build",
-    "start":"npm run heroku"
+    "start": "npm run heroku"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
@@ -23,6 +23,7 @@
     "@mdi/font": "^7.0.96",
     "axios": "^0.27.2",
     "concurrently": "^7.3.0",
+    "cors": "^2.8.5",
     "pinia": "^2.0.17",
     "proton-engine": "^5.4.3",
     "raf-manager": "^0.3.0",

@@ -49,20 +49,23 @@ const submit = async () => {
   const requestOptions = {
     method: 'GET',
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
       Authorization: authHeader(),
     },
   };
 
-  axios.get(getEndpoint(), requestOptions).then((response) => {
-    if (selectedOption.value === 'Airline') {
-      airlineResponse(response);
-    } else if (selectedOption.value === 'Airport') {
-      airportResponse(response);
-    }
-    waiting.value = false;
-  });
+  axios
+    .get(getEndpoint(), requestOptions)
+    .then((response) => {
+      if (selectedOption.value === 'Airline') {
+        airlineResponse(response);
+      } else if (selectedOption.value === 'Airport') {
+        airportResponse(response);
+      }
+      waiting.value = false;
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
 };
 
 const airportResponse = (response) => {
