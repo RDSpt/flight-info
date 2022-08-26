@@ -10,25 +10,6 @@ const props = defineProps({
 const logoFolder = 'src/assets/airlineLogo/';
 const imageExtension = '.png';
 
-/*
-"iata": "TP",
-"icao": "TAP",
-"logoUrl": "https://api-ninjas.com/images/airline_logos/tap_air_portugal.jpg",
-"name": "TAP Air Portugal",
-"fleet": {
-    "A20N": 11,
-    "A21N": 20,
-    "A319": 6,
-    "A320": 15,
-    "A321": 3,
-    "A332": 3,
-    "A339": 19,
-    "AT76": 8,
-    "E190": 12,
-    "E195": 4,
-    "total": 101
-}
-*/
 const airlineLogo = (manufacturer) => {
   return manufacturer ? logoFolder + manufacturer + imageExtension : '';
 };

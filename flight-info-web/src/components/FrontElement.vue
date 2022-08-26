@@ -4,7 +4,7 @@ import AirportInfo from './AirportInfo.vue';
 import AirlineInfo from './AirlineInfo.vue';
 import axios from 'redaxios';
 
-const host = import.meta.env.VITE_FLIGHT_INFO_API + '/flight-info';
+const host = (import.meta.env.VITE_FLIGHT_INFO_API||'http://localhost:8443') + '/flight-info';
 const options = ['Airline', 'Airport'];
 const airportInput = ref('');
 const selectedOption = ref('');
@@ -32,8 +32,6 @@ const getEndpoint = () => {
   }
 };
 
-console.log(import.meta.env.VITE_SECURITY_USER +':' +import.meta.env.VITE_SECURITY_PW);
-
 const submit = async () => {
   waiting.value = true;
   const config = {
@@ -43,9 +41,9 @@ const submit = async () => {
       Authorization:
         'Basic ' +
         btoa(
-          import.meta.env.VITE_SECURITY_USER +
+          (import.meta.env.VITE_SECURITY_USER || 'default')+
             ':' +
-            import.meta.env.VITE_SECURITY_PW
+            (import.meta.env.VITE_SECURITY_PW || 'pw')
         ),
     },
   };
@@ -120,9 +118,9 @@ const nameDisabled = computed(
     </v-alert>
   </div>
   <v-card class="main-card" elevation="20" shaped>
-    <v-form ref="form">
-      <v-row justify="center">
-        <v-col cols="6">
+    <v-form ref="form" class="form-item">
+      <v-row justify="space-between">
+        <v-col cols="3" align-self="center">
           <v-select
             label="What are you searching for?"
             :items="options"
@@ -131,7 +129,7 @@ const nameDisabled = computed(
             solo
           ></v-select
         ></v-col>
-        <v-col cols="20">
+        <v-col cols="7" align-self="center">
           <v-text-field
             v-if="selectedOption === 'Airport'"
             v-model="airportInput"
@@ -140,7 +138,7 @@ const nameDisabled = computed(
             label="Please insert Aiport Code?"
             solo
           ></v-text-field>
-          <v-row justify="center" class="airlineRow">
+          <v-row justify="space-between" class="airlineRow">
             <v-text-field
               class="airlineField"
               v-if="selectedOption === 'Airline'"
@@ -167,7 +165,7 @@ const nameDisabled = computed(
             ></v-text-field>
           </v-row>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="1" align-self="center">
           <v-btn
             v-if="selectedOption"
             class="ma-2"
@@ -202,7 +200,7 @@ const nameDisabled = computed(
   position: absolute;
   top: 50%;
   left: 20%;
-  width: 60%;
+  width: 60vw;
   z-index: 999;
   opacity: 75%;
 }
@@ -222,6 +220,7 @@ const nameDisabled = computed(
 .v-form {
   opacity: 100%;
 }
+
 .airlineField {
   margin: 0px 3px;
 }
