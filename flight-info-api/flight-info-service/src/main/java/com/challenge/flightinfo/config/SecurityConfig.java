@@ -12,7 +12,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception{
     http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure();
-    http.requiresChannel((channel) -> channel.anyRequest().requiresSecure());
     http.authorizeRequests().antMatchers("/").permitAll();
   }
 }
