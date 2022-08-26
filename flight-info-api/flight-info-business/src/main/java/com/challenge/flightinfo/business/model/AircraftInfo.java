@@ -1,17 +1,14 @@
 package com.challenge.flightinfo.business.model;
 
-import java.util.Map;
-
 import com.google.common.base.MoreObjects;
-import com.google.gson.annotations.SerializedName;
 
 public class AircraftInfo {
 
   private String code;
   private String manufacturer;
   private String modelName;
-  private String uld320Capable;
-  private String wideBody;
+  private Boolean uld320Capable;
+  private Boolean wideBody;
 
   private Long quantity;
 
@@ -39,19 +36,19 @@ public class AircraftInfo {
     this.modelName = modelName;
   }
 
-  public String getUld320Capable() {
+  public Boolean getUld320Capable() {
     return uld320Capable;
   }
 
-  public void setUld320Capable(String uld320Capable) {
+  public void setUld320Capable(Boolean uld320Capable) {
     this.uld320Capable = uld320Capable;
   }
 
-  public String getWideBody() {
+  public Boolean getWideBody() {
     return wideBody;
   }
 
-  public void setWideBody(String wideBody) {
+  public void setWideBody(Boolean wideBody) {
     this.wideBody = wideBody;
   }
 

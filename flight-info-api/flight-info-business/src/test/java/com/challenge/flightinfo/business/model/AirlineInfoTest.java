@@ -1,9 +1,13 @@
 package com.challenge.flightinfo.business.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +56,21 @@ class AirlineInfoTest {
     expected.put("a", 1L);
     instance.setFleet(expected);
     assertEquals(expected, instance.getFleet());
+  }
+
+  @Test
+  void getFleetInfo() {
+    List<AircraftInfo> expected = Collections.singletonList(new AircraftInfo());
+    instance.setFleetInfo(expected);
+    assertEquals(expected, instance.getFleetInfo());
+  }
+
+  @Test
+  void addFleetInfo() {
+    assertNull(instance.getFleetInfo());
+    instance.addFleetInfo(new AircraftInfo());
+    assertNotNull(instance.getFleetInfo());
+    assertFalse(instance.getFleetInfo().isEmpty());
   }
 
   @Test
