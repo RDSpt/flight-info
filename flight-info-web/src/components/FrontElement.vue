@@ -103,6 +103,8 @@ const icaoDisabled = computed(
 const nameDisabled = computed(
   () => icao.value.length > 0 || iata.value.length > 0
 );
+
+const btnDisabled = computed(() => waiting.value);
 </script>
 
 <template>
@@ -173,6 +175,7 @@ const nameDisabled = computed(
             large
             fab
             color="indigo"
+            :disabled="btnDisabled"
             @click="submit"
           >
             <v-icon>mdi-magnify</v-icon>
